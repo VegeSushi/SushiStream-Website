@@ -3,7 +3,7 @@ require __DIR__ . '../../../../vendor/autoload.php';
 
 use MongoDB\Client;
 
-$mongoUri = "mongodb://localhost:27017"; // Adjust host/port if needed
+$mongoUri = "mongodb://localhost:27017";
 
 try {
     // Connect to MongoDB
