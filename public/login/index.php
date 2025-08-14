@@ -16,10 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    if ($auth->register($username, $password)) {
-        $message = "Registration successful!";
+    if ($auth->login($username, $password)) {
+        $_SESSION['username'] = $username;
+        header("Location: ../../index.php");
+        exit;
     } else {
-        $message = "Username already exists!";
+        $message = "Invalid username or password!";
     }
 }
 ?>
@@ -27,15 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>SushiStream Registration</title>
+        <meta charset="UTF-8">
+        <title>SushiStream Login</title>
     </head>
     <body>
-        <h1>Register:</h1>
-        <?php echo $message; ?>
+        <h1>Login</h1>
+        <?php echo htmlspecialchars($message); ?>
         <form method="post">
-            Username: <input type="text" name="username" required><br>
-            Password: <input type="password" name="password" required><br>
-            <button type="submit">Register</button>
+        Username: <input type="text" name="username" required><br>
+        Password: <input type="password" name="password" required><br>
+        <button type="submit">Login</button>
         </form>
         <p><a href="../../index.php">Back to Homepage</a></p>
     </body>

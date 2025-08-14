@@ -1,5 +1,5 @@
 <?php
-namespace Sushi\M5StreamWebsite\Services;
+namespace Sushi\SushiStreamWebsite\Services;
 
 use MongoDB\Database;
 
@@ -10,22 +10,23 @@ class AuthService
 
     public function __construct(Database $db)
     {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         $this->db = $db;
         $this->users = $db->users;
     }
 
     public function register(string $username, string $password): bool
     {
-        // Check if username exists
         $existing = $this->users->findOne(['username' => $username]);
         if ($existing) {
             return false;
         }
 
-        // Hash password
         $hashed = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert user
         $this->users->insertOne([
             'username' => $username,
             'password' => $hashed,
@@ -40,6 +41,35 @@ class AuthService
         $user = $this->users->findOne(['username' => $username]);
         if (!$user) return false;
 
-        return password_verify($password, $user['password']);
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['username'] = $username;
+            return true;
+        }
+        return false;
+    }
+
+    public function logout(): void
+    {
+        unset($_SESSION['username']);
+        session_destroy();
+    }
+
+    public function isAuthorized(?string $username = null): bool
+    {
+        if (!isset($_SESSION['username'])) {
+            return false;
+        }
+
+        // If a specific username is passed, ensure it matches the logged-in user
+        if ($username !== null && $_SESSION['username'] !== $username) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function getLoggedInUsername(): ?string
+    {
+        return $_SESSION['username'] ?? null;
     }
 }

@@ -1,14 +1,13 @@
 {
-    "name": "sushi/m5-stream-website",
+    "name": "sushi/sushistream-website",
     "description": "Website for the M5-Stream client for the M5Cardputer",
     "type": "project",
     "require": {
-        "mongodb/mongodb": "^1.15",
-        "php-ffmpeg/php-ffmpeg": "^1.3"
+        "mongodb/mongodb": "^1.15"
     },
     "autoload": {
         "psr-4": {
-            "Sushi\\M5StreamWebsite\\": "src/"
+            "Sushi\\SushiStreamWebsite\\": "src/"
         }
     }
 }
