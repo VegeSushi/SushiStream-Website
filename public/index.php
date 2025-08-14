@@ -19,7 +19,7 @@ $auth = new AuthService($db);
     	<title>SushiStream Homepage</title>
 	</head>
 	<body>
-    	<h1>Welcome to M5-Stream</h1>
+    	<h1>Welcome to SushiStream</h1>
 
     	<?php if ($auth->isAuthorized()): ?>
         	<p>Hello, <?php echo htmlspecialchars($auth->getLoggedInUsername()); ?>!</p>

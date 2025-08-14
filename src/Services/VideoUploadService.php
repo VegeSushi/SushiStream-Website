@@ -1,25 +1,22 @@
 <?php
+
 namespace Sushi\SushiStreamWebsite\Services;
 
 use MongoDB\Database;
 
 class VideoUploadService
 {
-    private Database $db;
-    private $videos;
-    private string $uploadDir;
-    private $authService;
-
     public function __construct(Database $db, AuthService $authService, string $uploadDir)
     {
         $this->db = $db;
         $this->videos = $db->videos;
         $this->authService = $authService;
         $this->uploadDir = rtrim($uploadDir, DIRECTORY_SEPARATOR);
+        $this->baseUrl = rtrim($baseUrl, '/');
     }
 
     /**
-     * Handles video upload and MJPEG preview generation using raw FFmpeg.
+     * Handles MJPEG video upload.
      *
      * @param array  $file  The $_FILES['file'] array for the uploaded video.
      * @param string $title The title of the video.
@@ -38,53 +35,56 @@ class VideoUploadService
             return false;
         }
 
-        $videoDir = $this->uploadDir . DIRECTORY_SEPARATOR . 'videos';
+        $videoDir = $this->uploadDir . DIRECTORY_SEPARATOR . 'user-content' . DIRECTORY_SEPARATOR . 'videos';
         if (!is_dir($videoDir) && !mkdir($videoDir, 0775, true)) {
             error_log('Upload failed: could not create videos directory');
             return false;
         }
 
-        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $uniqueName = uniqid('video_', true) . '.' . $extension;
-        $destination = $videoDir . DIRECTORY_SEPARATOR . $uniqueName;
+        // Save uploaded file with original extension
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $uniqueBase = uniqid('video_', true);
+        $originalPath = $videoDir . DIRECTORY_SEPARATOR . $uniqueBase . '.' . $extension;
 
-        if (!move_uploaded_file($file['tmp_name'], $destination)) {
+        if (!move_uploaded_file($file['tmp_name'], $originalPath)) {
             error_log('Upload failed: could not move uploaded file');
             return false;
         }
 
-        // Generate MJPEG preview using raw FFmpeg
-        $previewName = uniqid('preview_', true) . '.mjpeg';
-        $previewPath = $videoDir . DIRECTORY_SEPARATOR . $previewName;
-
+        // Convert to MJPEG using ffmpeg
+        $mjpegFilename = $uniqueBase . '.mjpeg';
+        $mjpegPath = $videoDir . DIRECTORY_SEPARATOR . $mjpegFilename;
         $ffmpegCmd = sprintf(
-            '/usr/bin/ffmpeg -i %s -vf "scale=240:135,fps=30" -pix_fmt yuvj420p -c:v mjpeg -q:v 5 -an -f mjpeg %s 2>&1',
-            escapeshellarg($destination),
-            escapeshellarg($previewPath)
+            'ffmpeg -y -i %s -vf "scale=240:135,fps=30" -pix_fmt yuvj420p -c:v mjpeg -q:v 5 -an -f mjpeg %s 2>&1',
+            escapeshellarg($originalPath),
+            escapeshellarg($mjpegPath)
         );
 
         exec($ffmpegCmd, $output, $returnVar);
-
-        if ($returnVar !== 0) {
-            error_log('FFmpeg MJPEG generation failed: ' . implode("\n", $output));
-            unlink($destination);
+        if ($returnVar !== 0 || !file_exists($mjpegPath)) {
+            error_log('FFmpeg conversion failed: ' . implode("\n", $output));
+            unlink($originalPath);
             return false;
         }
 
+        // Delete the original uploaded file
+        unlink($originalPath);
+
+        $videoUrl = $this->baseUrl . '/videos/' . $mjpegFilename;
+
         try {
             $result = $this->videos->insertOne([
-                'title'        => $title,
-                'filename'     => $uniqueName,
-                'path'         => $destination,
-                'size'         => $file['size'],
-                'uploader'     => $username,
-                'preview_path' => $previewPath,
-                'uploaded_at'  => new \MongoDB\BSON\UTCDateTime()
+                'title'       => $title,
+                'filename'    => $mjpegFilename,
+                'path'        => $mjpegPath,
+                'url'         => $videoUrl,
+                'size'        => filesize($mjpegPath),
+                'uploader'    => $username,
+                'uploaded_at' => new \MongoDB\BSON\UTCDateTime()
             ]);
         } catch (\Exception $e) {
             error_log('MongoDB insert failed: ' . $e->getMessage());
-            unlink($destination);
-            unlink($previewPath);
+            unlink($mjpegPath);
             return false;
         }
 
