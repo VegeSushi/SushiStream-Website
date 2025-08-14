@@ -11,7 +11,7 @@ $mongo = new MongoClient("mongodb://127.0.0.1:27017");
 $db = $mongo->selectDatabase("sushi_stream");
 
 $auth = new AuthService($db);
-$videoService = new VideoUploadService($db, $auth, __DIR__ . '/../..');
+$videoService = new VideoUploadService($db, $auth, __DIR__ . '/..');
 
 $message = "";
 

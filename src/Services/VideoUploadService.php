@@ -70,13 +70,13 @@ class VideoUploadService
         // Delete the original uploaded file
         unlink($originalPath);
 
-        $videoUrl = $this->baseUrl . '/videos/' . $mjpegFilename;
+        $videoUrl = $this->baseUrl . '/user-content/videos/' . $mjpegFilename;
 
         try {
             $result = $this->videos->insertOne([
                 'title'       => $title,
                 'filename'    => $mjpegFilename,
-                'path'        => $mjpegPath,
+                //'path'        => $mjpegPath,
                 'url'         => $videoUrl,
                 'size'        => filesize($mjpegPath),
                 'uploader'    => $username,
