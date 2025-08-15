@@ -3,8 +3,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use MongoDB\Client as MongoClient;
 
-session_start();
-
 // Connect to MongoDB
 $mongo = new MongoClient("mongodb://127.0.0.1:27017");
 $db = $mongo->selectDatabase("sushi_stream");
