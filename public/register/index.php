@@ -15,11 +15,12 @@ $message = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
+    $inviteKey = $_POST['invite_key'] ?? '';
 
-    if ($auth->register($username, $password)) {
+    if ($auth->register($username, $password, $inviteKey)) {
         $message = "Registration successful!";
     } else {
-        $message = "Username already exists!";
+        $message = "Username already exists or invalid invite key!";
     }
 }
 ?>
@@ -36,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="post">
             Username: <input type="text" name="username" required><br>
             Password: <input type="password" name="password" required><br>
+            Invite Key: <input type="text" name="invite_key" required><br>
             <button type="submit">Register</button>
         </form>
         <p><a href="../../index.php">Back to Homepage</a></p>

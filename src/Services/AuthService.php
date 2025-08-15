@@ -7,6 +7,7 @@ class AuthService
 {
     private $db;
     private $users;
+    private $inviteKeys;
 
     public function __construct(Database $db)
     {
@@ -16,12 +17,22 @@ class AuthService
         
         $this->db = $db;
         $this->users = $db->users;
+        $this->inviteKeys = $db->invite_keys;
     }
 
-    public function register(string $username, string $password): bool
+    public function register(string $username, string $password, string $inviteKey): bool
     {
         $existing = $this->users->findOne(['username' => $username]);
         if ($existing) {
+            return false;
+        }
+
+        if ($inviteKey) {
+            $invite = $this->inviteKeys->findOne(['key' => $inviteKey, 'used' => false]);
+            if (!$invite) {
+                return false;
+            }
+        } else {
             return false;
         }
 
@@ -32,6 +43,11 @@ class AuthService
             'password' => $hashed,
             'created_at' => new \MongoDB\BSON\UTCDateTime()
         ]);
+
+        $this->inviteKeys->updateOne(
+            ['_id' => $invite['_id']],
+            ['$set' => ['used' => true]]
+        );
 
         return true;
     }
