@@ -21,14 +21,11 @@ if (!$video) {
     exit('Video not found');
 }
 
-// Detect domain dynamically
+// Detect base URL
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || 
              $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 $host = $_SERVER['HTTP_HOST'];
-$domain = $protocol . $host;
-
-// Build stream URL
-$streamUrl = $domain . "/stream.php?file=" . urlencode($video['filename']);
+$baseUrl = $protocol . $host;
 ?>
 
 <!DOCTYPE html>
@@ -40,11 +37,15 @@ $streamUrl = $domain . "/stream.php?file=" . urlencode($video['filename']);
         <link rel="stylesheet" href="/watch/watch.css">
 	</head>
 	<body>
-		<img id="player" src="<?php echo htmlspecialchars($streamUrl); ?>" alt="MJPEG video">
+		<canvas id="player"></canvas>
+        <div class="meta">
+            <div class="title"><?php echo htmlspecialchars($video['title']); ?></div>
+            <div class="uploader">Uploaded by: <?php echo htmlspecialchars($video['uploader']); ?></div>
+            <div class="date"><?php echo date("F j, Y, g:i a", $video['uploaded_at']->toDateTime()->getTimestamp()); ?></div>
+        </div>
+        <script>
+        const MJPEG_FILE_URL = "<?php echo $baseUrl . '/user-content/videos/' . urlencode($filename); ?>";
+        </script>
+        <script src="/watch/mjpeg-player.js"></script>
 	</body>
-	<div class="meta">
-        <div class="title"><?php echo htmlspecialchars($video['title']); ?></div>
-        <div class="uploader">Uploaded by: <?php echo htmlspecialchars($video['uploader']); ?></div>
-        <div class="date"><?php echo date("F j, Y, g:i a", $video['uploaded_at']->toDateTime()->getTimestamp()); ?></div>
-    </div>
 </html>
