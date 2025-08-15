@@ -1,6 +1,6 @@
 {
     "name": "sushi/sushistream-website",
-    "description": "Website for the M5-Stream client for the M5Cardputer",
+    "description": "Website for the M5-Stream client for the M5Cardputer and more",
     "type": "project",
     "require": {
         "mongodb/mongodb": "^1.15"

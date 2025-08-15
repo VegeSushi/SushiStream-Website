@@ -31,5 +31,6 @@ $auth = new AuthService($db);
         	<a href="login/index.php"><button>Login</button></a>
         	<a href="register/index.php"><button>Register</button></a>
     	<?php endif; ?>
+    		<a href="videos/index.php"><button>Watch here</button></a>
 	</body>
 </html>
