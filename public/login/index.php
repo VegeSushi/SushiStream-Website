@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <head>
         <meta charset="UTF-8">
         <title>SushiStream Login</title>
+        <link rel="stylesheet" href="/global.css">
     </head>
     <body>
         <h1>Login</h1>

@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['video'])) {
     <head>
         <meta charset="UTF-8">
         <title>SushiStream Upload</title>
+        <link rel="stylesheet" href="/global.css">
     </head>
     <body>
         <h1>Upload a Video</h1>

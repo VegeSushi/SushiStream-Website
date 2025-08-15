@@ -27,6 +27,8 @@ $videos = $db->videos->find([], [
     <head>
         <meta charset="UTF-8">
         <title>SushiStream Videos</title>
+        <link rel="stylesheet" href="/global.css">
+        <link rel="stylesheet" href="videos.css">
     </head>
     <body>
         <?php foreach ($videos as $video): 

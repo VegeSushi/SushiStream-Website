@@ -17,6 +17,7 @@ $auth = new AuthService($db);
 	<head>
     	<meta charset="UTF-8">
     	<title>SushiStream Homepage</title>
+    	<link rel="stylesheet" href="/global.css">
 	</head>
 	<body>
     	<h1>Welcome to SushiStream</h1>

@@ -1,0 +1,15 @@
+#player {
+    height: 540px;
+    width: 960px;
+    display: block;
+    margin: 20px auto;
+    object-fit: fill;
+}
+
+.meta {
+    padding: 8px;
+    border-top: 2px solid cyan;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}

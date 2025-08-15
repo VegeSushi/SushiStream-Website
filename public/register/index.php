@@ -28,6 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
     <head>
         <title>SushiStream Registration</title>
+        <link rel="stylesheet" href="/global.css">
     </head>
     <body>
         <h1>Register:</h1>

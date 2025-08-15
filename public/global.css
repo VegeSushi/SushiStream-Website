@@ -1,0 +1,18 @@
+body {
+    background-color: gray;
+    color: purple;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: darkpurple;
+}
+
+a {
+    color: red;
+    text-decoration: none;
+}
+
+a:visited {
+    color: darkred;
+}

@@ -38,9 +38,11 @@ $streamUrl = $domain . "/stream.php?file=" . urlencode($video['filename']);
 	<head>
     	<meta charset="UTF-8">
     	<title>SushiStream Video</title>
+        <link rel="stylesheet" href="/global.css">
+        <link rel="stylesheet" href="/watch/watch.css">
 	</head>
 	<body>
-		<img src="<?php echo htmlspecialchars($streamUrl); ?>" alt="MJPEG video">
+		<img id="player" src="<?php echo htmlspecialchars($streamUrl); ?>" alt="MJPEG video">
 	</body>
 	<div class="meta">
         <div class="title"><?php echo htmlspecialchars($video['title']); ?></div>

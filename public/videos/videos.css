@@ -1,0 +1,37 @@
+body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.video-card {
+    border: 2px solid blue;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    cursor: pointer;
+}
+
+.video-card .thumbnail {
+    border-bottom: 2px solid cyan;
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-card .meta {
+    padding: 8px;
+    border-top: 2px solid cyan;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.video-card .title,
+.video-card .uploader,
+.video-card .date {
+    border: 1px solid cyan;
+    padding: 2px 4px;
+}
