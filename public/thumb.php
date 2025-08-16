@@ -5,6 +5,13 @@ if (!$file) {
     exit('Missing file');
 }
 
+$allowed = ['mjpeg'];
+$ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+if (!in_array($ext, $allowed)) {
+    http_response_code(400);
+    exit('Invalid file type');
+}
+
 // Adjust to your actual storage path
 $videoPath = __DIR__ . "/user-content/videos/" . basename($file);
 
