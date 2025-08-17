@@ -22,6 +22,10 @@ Then press the *Generate Key* button
 
 Mongodb needs to be installed on the server
 
+### Video upload
+
+The video upload requires FFmpeg to be installed system wide from the distro's package manager
+
 ## API
 
 API is avaible under *http://127.0.0.1/api*<br>
