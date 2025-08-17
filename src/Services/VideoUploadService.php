@@ -12,7 +12,7 @@ class VideoUploadService
         $this->videos = $db->videos;
         $this->authService = $authService;
         $this->uploadDir = rtrim($uploadDir, DIRECTORY_SEPARATOR);
-        $this->baseUrl = '';
+        $this->baseUrl = rtrim(baseUrl, '/');
     }
 
     /**
