@@ -22,7 +22,7 @@ if (!$video) {
 }
 
 // Detect base URL
-$protocol = 'https://';
+$protocol = 'http://';
 $host = $_SERVER['HTTP_HOST'];
 $baseUrl = $protocol . $host;
 ?>
