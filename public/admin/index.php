@@ -17,6 +17,7 @@ if (!isset($_SESSION['is_admin'])) {
             $_SESSION['is_admin'] = true;
         } else {
             $error = "Invalid master password!";
+            exit;
         }
     } else {
         // Show password form
