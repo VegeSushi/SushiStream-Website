@@ -47,4 +47,4 @@ HTTPS is not supported due to our client's limitations, please use HTTP
 
 ## Clients:
 
-[M5Cardputer](https://docs.invidious.io/youtube-errors-explained/#po-token-initialization-taking-too-much-time-to-complete)
+[M5Cardputer](https://github.com/VegeSushi/SushiStream-M5Cardputer)
