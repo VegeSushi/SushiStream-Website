@@ -34,7 +34,7 @@ Currently you can only access videos under the *videos* page under the *api* pag
 ## Hosting
 
 1. Clone the repo to /var/www/SushiStream-Website
-2. Install Caddy, refer to (these instructions)[https://caddyserver.com/docs/install].
+2. Install Caddy, refer to [these instructions](https://caddyserver.com/docs/install).
 3. Put the contents of caddy/Caddyfile into /etc/caddy/Caddyfile
 4. Restart Caddy using this command:
 ```bash
@@ -47,4 +47,4 @@ HTTPS is not supported due to our client's limitations, please use HTTP
 
 ## Clients:
 
-(M5Cardputer)[https://docs.invidious.io/youtube-errors-explained/#po-token-initialization-taking-too-much-time-to-complete]
+[M5Cardputer](https://docs.invidious.io/youtube-errors-explained/#po-token-initialization-taking-too-much-time-to-complete)
