@@ -1,0 +1,19 @@
+http://example.com {
+        root * /var/www/SushiStream-Website/public
+        encode zstd gzip
+
+        handle /user-content/videos/* {
+                header Connection close
+                file_server
+        }
+
+
+        php_fastcgi unix//run/php/php8.3-fpm.sock {
+                env DEV_MODE 1
+                flush_interval 0
+        }
+
+        file_server
+
+        try_files {path} {path}/ /index.php?{query}
+}
